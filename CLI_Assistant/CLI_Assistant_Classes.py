@@ -1,4 +1,7 @@
 from collections import UserDict
+from datetime import date
+import re
+
 
 
 class Assistant(UserDict):
@@ -8,6 +11,41 @@ class Assistant(UserDict):
         self.data[contact_number] = record
         contact_number += 1
         return contact_number
+
+    def find(self, find_data):
+        result = []
+        for k, i in self.data.items():
+            if re.findall(find_data, i.contact_data['Name'], re.IGNORECASE) != []:
+                result.append([k, i.contact_data['Name'], i.contact_data['Phone']])
+            else:
+                for j in range(0, len(i.contact_data['Phone'])):
+                    if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
+                        result.append([k, i.contact_data['Name'], i.contact_data['Phone']])
+        return result
+
+    def __getstate__(self):
+        attributes = self.__dict__
+        return attributes
+    
+    def __iter__(self):
+        self.index = 0
+        return self
+
+    def __next__(self):
+        keys = tuple(self.data.keys())
+        if self.index == len(keys):
+            raise StopIteration
+        key = keys[self.index]
+        record = self.data[key]
+        self.index += 1
+        if len(record.contact_data) == 2:
+            return record.name, record.phone
+        elif len(record.contact_data) == 3:
+            return record.name, record.phone, record.email
+        elif len(record.contact_data) == 4:
+            return record.name, record.phone, record.email, record.address
+        elif len(record.contact_data) == 5:
+            return record.name, record.phone, record.email, record.address, record.birthday
 
 
 class Name():
@@ -34,6 +72,28 @@ class Address():
 		self.address = address
 
 
+class Birthday():
+
+    def __init__(self, birthday):
+            birthday = str(birthday)
+            dob_data = birthday.split(".")
+            today = date.today().year
+            if dob_data[0].isdigit and int(dob_data[0]) > 0 and int(dob_data[0]) <= 31:
+                if dob_data[1].isdigit and int(dob_data[1]) > 0 and int(dob_data[1]) <= 12:
+                    if dob_data[2].isdigit and int(dob_data[2]) > 0 and int(dob_data[2]) <= today:
+                        res = birthday
+                    else:
+                        print('You enter wrong year')
+                        res = None
+                else:
+                    print('You enter wrong month')
+                    res = None
+            else:
+                print('You enter wrong day')
+                res = None
+            self.birthday = res
+
+
 class Record():
 
     def __init__(self, name, phone, email, address, birthday):
@@ -42,41 +102,31 @@ class Record():
         self.contact_data = contact_data = {}
         self.name = contact_data['Name'] = name.name
         self.phone = contact_data['Phone'] = phones
-        self.email = contact_data['Email'] = email
-        self.email = contact_data['Address'] = address
-        if birthday != None and birthday != '':
+        if email:
+            self.email = contact_data['Email'] = email.email
+        else:
+            email = None
+        if address:
+            self.address = contact_data['Address'] = address.address
+        else:
+            address = None
+        if birthday:
             self.birthday = contact_data['Birthday'] = birthday.birthday
         else:
-            self.birthday = None
+            birthday = None
 
     def add_phone(self, phone):
-        if phone.isdigit() and len(phone) == 12:
-            self.contact_data['Phone'].append(phone)
-        else:
-            print('Wrong phone number format. Try "+XX(XXX)XXX-XX-XX"')
-            self.phone = None
+        self.contact_data['Phone'].append(phone)
 
     def edit_phone(self, phone, new_phone):
-        if phone.isdigit() and len(phone) == 12:
-            phone = phone
-        else:
-            print('Wrong phone number format. Try "+XX(XXX)XXX-XX-XX"')
-            phone = None
-        if new_phone.isdigit() and len(new_phone) == 12:
-            new_phone = new_phone
-        else:
-            print('Wrong phone number format. Try "+XX(XXX)XXX-XX-XX"')
-            new_phone = phone
         for i in self.contact_data['Phone']:
             if i == phone:
                 idx = self.contact_data['Phone'].index(i)
                 self.contact_data['Phone'][idx] = new_phone
 
     def remove_phone(self, phone):
-        if phone.isdigit() and len(phone) == 12:
-            self.contact_data['Phone'].remove(phone)
-        else:
-            print('Wrong phone number format. Try "+XX(XXX)XXX-XX-XX"')
+        self.contact_data['Phone'].remove(phone)
+
 
     def days_to_birthday(self):
         if self.birthday != None:
