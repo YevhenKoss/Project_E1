@@ -1,4 +1,4 @@
-import CLI_Assistant
+import CLI_Assistant_Classes
 import pathlib
 import pickle
 import re
@@ -7,18 +7,18 @@ import re
 def add_function(command, Address_Book):
 	if command == 'add':
 		name = input("Enter abonent's name: ")
-		name = Address_Book_Classes.Name(name)
+		name = CLI_Assistant_Classes.Name(name)
 		phone = input(f"Enter {name.name}'s phone in format +XX(XXX)XXX-XX-XX: ")
-		phone = Address_Book_Classes.Phone(phone)
+		phone = CLI_Assistant_Classes.Phone(phone)
 		enter_birthday = input(f"Do you want to enter {name.name}'s birthday y/n: ")
 		if enter_birthday == 'y' or enter_birthday == 'Y':
 			birthday = input(f"Enter {name.name}'s birthday in format DD.MM.YYYY: ")
-			birthday = Address_Book_Classes.Birthday(birthday)
-			record = Address_Book_Classes.Record(name, phone, birthday)
+			birthday = CLI_Assistant_Classes.Birthday(birthday)
+			record = CLI_Assistant_Classes.Record(name, phone, birthday)
 			Address_Book.add_record(record)
 		else:
 			birthday = None
-			record = Address_Book_Classes.Record(name, phone, birthday)
+			record = CLI_Assistant_Classes.Record(name, phone, birthday)
 			Address_Book.add_record(record)
 
 		print(f'Record {Address_Book.data[len(Address_Book.data)].contact_data} created!')

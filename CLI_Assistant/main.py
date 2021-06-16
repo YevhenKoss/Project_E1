@@ -1,4 +1,4 @@
-from AddressBook import *
+from CLI_Assistant import *
 
 # Commands:
 
@@ -21,7 +21,7 @@ def main():
 		with open('save.bin', 'rb') as file:
 			Address_book = pickle.load(file)
 	else:
-		Address_book = Address_Book_Classes.AddressBook()
+		Address_book = CLI_Assistant_Classes.AddressBook()
 
 	while True:
 		input_data = input('Enter the command: ')
