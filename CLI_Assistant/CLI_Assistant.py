@@ -34,3 +34,17 @@ class Address():
 		self.address = address
 
 
+class Record():
+
+    def __init__(self, name, phone, email, address, birthday):
+        phones = []
+        phones.append(phone.phone)
+        self.contact_data = contact_data = {}
+        self.name = contact_data['Name'] = name.name
+        self.phone = contact_data['Phone'] = phones
+        self.email = contact_data['Email'] = email
+        self.email = contact_data['Address'] = address
+        if birthday != None and birthday != '':
+            self.birthday = contact_data['Birthday'] = birthday.birthday
+        else:
+            self.birthday = None
