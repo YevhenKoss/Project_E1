@@ -48,3 +48,10 @@ class Record():
             self.birthday = contact_data['Birthday'] = birthday.birthday
         else:
             self.birthday = None
+
+    def add_phone(self, phone):
+        if phone.isdigit() and len(phone) == 12:
+            self.contact_data['Phone'].append(phone)
+        else:
+            print('Wrong phone number format. Try "+XX(XXX)XXX-XX-XX"')
+            self.phone = None
