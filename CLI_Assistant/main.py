@@ -30,12 +30,13 @@ def main():
 		add_function(command, bot_memory)
 		append_function(command, bot_memory)
 		birthday_function(command, bot_memory)
-		change_function(command, bot_memory)
+		change_phone_function(command, bot_memory)
 		hello_function(command)
 		phone_function(command, bot_memory)
 		remove_function(command, bot_memory)
 		save_function(command, bot_memory)
 		show_all_function(command, bot_memory)
+		find_function(command, bot_memory)
 
 
 		if command == 'good bye' or command == 'close' or command == 'exit':

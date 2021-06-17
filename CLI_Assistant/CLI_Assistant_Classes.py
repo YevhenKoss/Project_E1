@@ -15,12 +15,48 @@ class Assistant(UserDict):
     def find(self, find_data):
         result = []
         for k, i in self.data.items():
-            if re.findall(find_data, i.contact_data['Name'], re.IGNORECASE) != []:
-                result.append([k, i.contact_data['Name'], i.contact_data['Phone']])
-            else:
-                for j in range(0, len(i.contact_data['Phone'])):
-                    if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
-                        result.append([k, i.contact_data['Name'], i.contact_data['Phone']])
+            if len(i.contact_data) == 2:
+                if re.findall(find_data, i.contact_data['Name'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone']])
+                else:
+                    for j in range(0, len(i.contact_data['Phone'])):
+                        if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
+                            result.append([k, i.contact_data['Name'], i.contact_data['Phone']])
+            elif len(i.contact_data) == 3:
+                if re.findall(find_data, i.contact_data['Name'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email']])
+                elif re.findall(find_data, i.contact_data['Email'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email']])
+                else:
+                    for j in range(0, len(i.contact_data['Phone'])):
+                        if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
+                            result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email']])
+            elif len(i.contact_data) == 4:
+                if re.findall(find_data, i.contact_data['Name'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address']])
+                elif re.findall(find_data, i.contact_data['Email'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address']])
+                elif re.findall(find_data, i.contact_data['Address'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address']])
+                else:
+                    for j in range(0, len(i.contact_data['Phone'])):
+                        if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
+                            result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address']])
+            elif len(i.contact_data) == 5:
+                if re.findall(find_data, i.contact_data['Name'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address'], i.contact_data['Birthday']])
+                elif re.findall(find_data, i.contact_data['Email'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address'], i.contact_data['Birthday']])
+                elif re.findall(find_data, i.contact_data['Address'], re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address'], i.contact_data['Birthday']])
+                elif re.findall(find_data, str(i.contact_data['Birthday']), re.IGNORECASE) != []:
+                    result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address'], i.contact_data['Birthday']])
+                else:
+                    for j in range(0, len(i.contact_data['Phone'])):
+                        if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
+                            result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address'], i.contact_data['Birthday']])
+
+
         return result
 
     def __getstate__(self):

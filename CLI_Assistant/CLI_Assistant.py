@@ -64,8 +64,8 @@ def birthday_function(command, bot_memory):
 		else:
 			print('No such abonent in phone book')
 
-def change_function(command, bot_memory):
-	if command == 'change':
+def change_phone_function(command, bot_memory):
+	if command == 'change phone':
 		find_data = input("If you want to change abonent's phone, enter his/her name or phone number in format +XX(XXX)XXX-XX-XX: ")
 		find_result = bot_memory.find(find_data)
 		if find_result != []:
@@ -91,7 +91,7 @@ def hello_function(command):
 		print('Hello! How can I help you?')
 
 def input_command(input_data):
-	commands = ['hello', 'add', 'append', 'change', 'days to birthday', 'phone', 'remove', 'save', 'show all', 'good bye', 'close', 'exit']
+	commands = ['hello', 'add', 'append', 'change phone', 'days to birthday', 'phone', 'remove', 'save', 'show all', 'good bye', 'close', 'exit', 'find']
 	for command in commands:
 		if re.findall(command, input_data, re.IGNORECASE):
 			result = command
@@ -142,6 +142,27 @@ def show_all_function(command, bot_memory):
 	if command == 'show all':
 		for i in bot_memory:
 			print(i)
+
+
+
+def find_function(command, bot_memory):
+	if command == 'find':
+		find_data = input("To find abonent, enter his/her name or phone number in format +XX(XXX)XXX-XX-XX: ")
+		find_result = bot_memory.find(find_data)
+		if find_result != []:
+			for j in range(0, len(find_result)):
+				if len(find_result[j]) == 3:
+					print(f'Contact № {find_result[j][0]}, Name: {find_result[j][1]}, Phone: {find_result[j][2]}')
+				elif len(find_result[j]) == 4:
+					print(f'Contact № {find_result[j][0]}, Name: {find_result[j][1]}, Phone: {find_result[j][2]}, Email: {find_result[j][3]}')
+				elif len(find_result[j]) == 5:
+					print(f'Contact № {find_result[j][0]}, Name: {find_result[j][1]}, Phone: {find_result[j][2]}, Email: {find_result[j][3]}, Address: {find_result[j][4]}')
+				elif len(find_result[j]) == 6:
+					print(f'Contact № {find_result[j][0]}, Name: {find_result[j][1]}, Phone: {find_result[j][2]}, Email: {find_result[j][3]}, Address: {find_result[j][4]}, Birthday: {find_result[j][5]}')
+
+
+	
+
 
 
 
