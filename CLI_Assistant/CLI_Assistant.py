@@ -2,6 +2,7 @@ import CLI_Assistant_Classes
 import pathlib
 import pickle
 import re
+import clean
 
 
 def add_function(command, bot_memory):
@@ -91,7 +92,7 @@ def hello_function(command):
 		print('Hello! How can I help you?')
 
 def input_command(input_data):
-	commands = ['hello', 'add', 'append', 'change phone', 'days to birthday', 'phone', 'remove', 'save', 'show all', 'good bye', 'close', 'exit', 'find']
+	commands = ['hello', 'add', 'append', 'change phone', 'days to birthday', 'phone', 'remove', 'save', 'show all', 'good bye', 'close', 'exit', 'find', 'clean']
 	for command in commands:
 		if re.findall(command, input_data, re.IGNORECASE):
 			result = command
@@ -161,7 +162,9 @@ def find_function(command, bot_memory):
 					print(f'Contact № {find_result[j][0]}, Name: {find_result[j][1]}, Phone: {find_result[j][2]}, Email: {find_result[j][3]}, Address: {find_result[j][4]}, Birthday: {find_result[j][5]}')
 
 
-	
+def clean_function(command):
+	if command == 'clean':
+		clean.clean()
 
 
 

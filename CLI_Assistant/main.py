@@ -4,7 +4,7 @@ from CLI_Assistant import *
 
 #- "add" - add the contact to the phone book
 #- "append" - append the phone to existing contact
-#- "change" - change the contact's phone
+#- "change phone" - change the contact's phone
 #- "days to birthday" - calculate how many days to abonent's birthday (only for abonents with date of birth)
 #- "hello" - greet the assistant
 #- "phone" - show the contact by his/her name or find all abonent's matches   
@@ -37,6 +37,7 @@ def main():
 		save_function(command, bot_memory)
 		show_all_function(command, bot_memory)
 		find_function(command, bot_memory)
+		clean_function(command)
 
 
 		if command == 'good bye' or command == 'close' or command == 'exit':
