@@ -38,6 +38,7 @@ def main():
 		show_all_function(command, bot_memory)
 		find_function(command, bot_memory)
 		clean_function(command)
+		change_email_function(command, bot_memory)
 
 
 		if command == 'good bye' or command == 'close' or command == 'exit':

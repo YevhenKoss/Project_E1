@@ -15,17 +15,17 @@ def add_function(command, bot_memory):
 		if email:
 			email = CLI_Assistant_Classes.Email(email)
 		else:
-			email = None
+			email = CLI_Assistant_Classes.Email('empty email')
 		address = input(f"Enter {name.name}'s address: ")
 		if address:
 			address = CLI_Assistant_Classes.Address(address)
 		else:
-			address = None
+			address = CLI_Assistant_Classes.Address('empty address')
 		birthday = input(f"Enter {name.name}'s birthday in format DD.MM.YYYY: ")
 		if birthday:
 			birthday = CLI_Assistant_Classes.Birthday(birthday)
 		else:
-			birthday = None
+			birthday = CLI_Assistant_Classes.Birthday('empty birthday date')
 
 		record = CLI_Assistant_Classes.Record(name, phone, email, address, birthday)
 		bot_memory.add_record(record)
@@ -65,9 +65,35 @@ def birthday_function(command, bot_memory):
 		else:
 			print('No such abonent in phone book')
 
+def change_email_function(command, bot_memory):
+	if command == 'change email':
+		find_data = input("If you want to change abonent's email, enter his/her name, phone number or email: ")
+		find_result = bot_memory.find(find_data)
+		if find_result != []:
+			for j in range(0, len(find_result)):
+				print(f'Contact № {find_result[j][0]}, Name: {find_result[j][1]}, Phone: {find_result[j][2]},  Email: {find_result[j][3]}')
+			number_of_contact = input("Enter the number of contact you want to change: ")
+			if number_of_contact.isdigit():
+				for j in range(0, len(find_result)):
+					if len(bot_memory.data[int(number_of_contact)].contact_data) >= 4:
+						if int(number_of_contact) == find_result[j][0]:
+							new_email = input("Enter new email: ")
+							new_email = CLI_Assistant_Classes.Email(new_email)
+							bot_memory.data[int(number_of_contact)].edit_email(new_email.email)
+							print(f'Change completed. Existing record changed on {bot_memory.data[int(number_of_contact)].contact_data}')
+						else:
+							print('Wrong number of contact')
+					else:
+						print('Contact with this number don\'t have Email')
+			else:
+				print('Wrong number of contact')
+		else:
+			print('No such abonent in phone book')
+
+
 def change_phone_function(command, bot_memory):
 	if command == 'change phone':
-		find_data = input("If you want to change abonent's phone, enter his/her name or phone number in format +XX(XXX)XXX-XX-XX: ")
+		find_data = input("If you want to change abonent's phone, enter his/her name, phone number, email or address: ")
 		find_result = bot_memory.find(find_data)
 		if find_result != []:
 			for j in range(0, len(find_result)):
@@ -92,7 +118,7 @@ def hello_function(command):
 		print('Hello! How can I help you?')
 
 def input_command(input_data):
-	commands = ['hello', 'add', 'append', 'change phone', 'days to birthday', 'phone', 'remove', 'save', 'show all', 'good bye', 'close', 'exit', 'find', 'clean']
+	commands = ['hello', 'add', 'append', 'change phone', 'days to birthday', 'phone', 'remove', 'save', 'show all', 'good bye', 'close', 'exit', 'find', 'clean', 'change email']
 	for command in commands:
 		if re.findall(command, input_data, re.IGNORECASE):
 			result = command
@@ -113,7 +139,7 @@ def phone_function(command, bot_memory):
 
 def remove_function(command, bot_memory):
 	if command == 'remove':
-		find_data = input("If you want to remove abonent's phone, enter his/her name or existing phone number in format +XX(XXX)XXX-XX-XX: ")
+		find_data = input("If you want to remove abonent's phone, enter his/her name, phone number, email or address: ")
 		find_result = bot_memory.find(find_data)
 		if find_result != []:
 			for j in range(0, len(find_result)):
@@ -148,7 +174,7 @@ def show_all_function(command, bot_memory):
 
 def find_function(command, bot_memory):
 	if command == 'find':
-		find_data = input("To find abonent, enter his/her name or phone number in format +XX(XXX)XXX-XX-XX: ")
+		find_data = input("To find abonent, enter his/her name, phone number, email or address: ")
 		find_result = bot_memory.find(find_data)
 		if find_result != []:
 			for j in range(0, len(find_result)):

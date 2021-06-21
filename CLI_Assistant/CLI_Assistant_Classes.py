@@ -55,9 +55,9 @@ class Assistant(UserDict):
                     for j in range(0, len(i.contact_data['Phone'])):
                         if re.findall(find_data, i.contact_data['Phone'][j], re.IGNORECASE) != []:
                             result.append([k, i.contact_data['Name'], i.contact_data['Phone'], i.contact_data['Email'], i.contact_data['Address'], i.contact_data['Birthday']])
-
-
         return result
+
+
 
     def __getstate__(self):
         attributes = self.__dict__
@@ -74,32 +74,53 @@ class Assistant(UserDict):
         key = keys[self.index]
         record = self.data[key]
         self.index += 1
-        if len(record.contact_data) == 2:
-            return record.name, record.phone
-        elif len(record.contact_data) == 3:
-            return record.name, record.phone, record.email
-        elif len(record.contact_data) == 4:
-            return record.name, record.phone, record.email, record.address
-        elif len(record.contact_data) == 5:
-            return record.name, record.phone, record.email, record.address, record.birthday
+        return record.name, record.phone, record.email, record.address, record.birthday
 
 
 class Name():
 
     def __init__(self, name):
-        self.name = name.capitalize()
+        self.__name = name.capitalize()
+
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name):
+        self.__name = name.capitalize()
+
+
 
 
 class Phone():
 
     def __init__(self, phone):
-        self.phone = phone
+        self.__phone = phone
+
+    @property
+    def phone(self):
+        return self.__phone
+
+    @phone.setter
+    def phone(self, phone):
+        self.__phone = phone
+
 
 
 class Email():
 
-	def __init__(self, email):
-		self.email = email
+    def __init__(self, email):
+        self.__email = email
+
+    @property
+    def email(self):
+        return self.__email
+
+    @email.setter
+    def phone(self, email):
+        self.__email = email
+
 
 
 class Address():
@@ -111,6 +132,7 @@ class Address():
 class Birthday():
 
     def __init__(self, birthday):
+        if birthday != 'empty birthday date':
             birthday = str(birthday)
             dob_data = birthday.split(".")
             today = date.today().year
@@ -127,7 +149,9 @@ class Birthday():
             else:
                 print('You enter wrong day')
                 res = None
-            self.birthday = res
+        else:
+            res = 'empty birthday date'
+        self.birthday = res
 
 
 class Record():
@@ -138,18 +162,9 @@ class Record():
         self.contact_data = contact_data = {}
         self.name = contact_data['Name'] = name.name
         self.phone = contact_data['Phone'] = phones
-        if email:
-            self.email = contact_data['Email'] = email.email
-        else:
-            email = None
-        if address:
-            self.address = contact_data['Address'] = address.address
-        else:
-            address = None
-        if birthday:
-            self.birthday = contact_data['Birthday'] = birthday.birthday
-        else:
-            birthday = None
+        self.email = contact_data['Email'] = email.email
+        self.address = contact_data['Address'] = address.address
+        self.birthday = contact_data['Birthday'] = birthday.birthday
 
     def add_phone(self, phone):
         self.contact_data['Phone'].append(phone)
@@ -160,12 +175,18 @@ class Record():
                 idx = self.contact_data['Phone'].index(i)
                 self.contact_data['Phone'][idx] = new_phone
 
+    def edit_email(self, new_email):
+        self.contact_data['Email'] = new_email
+
+
+
+
     def remove_phone(self, phone):
         self.contact_data['Phone'].remove(phone)
 
 
     def days_to_birthday(self):
-        if self.birthday != None:
+        if self.birthday != 'empty birthday date':
             today = date.today()
             dob_data = self.birthday.split(".")
             dobDay = int(dob_data[0])
